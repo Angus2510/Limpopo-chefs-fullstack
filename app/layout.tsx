@@ -1,33 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import SidebarProvider from "../providers/SidebarProvider";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { AuthProvider } from "../contexts/AuthContext";
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Limpopo Chefs | Portal | Home",
   description: "Limpopo Chefs Student Portal Home",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+        <title>Limpopo Chefs | Portal | Home</title>
+      </head>
+      <body className={inter.className}>
+        <SidebarProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </SidebarProvider>
       </body>
     </html>
   );
